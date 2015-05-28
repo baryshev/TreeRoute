@@ -34,6 +34,12 @@ $router->get('/news/{slug:^[a-zA-Z\-]+$}', 'handler3');
 $router->get('/news/all', 'handler4');
 
 $method = 'GET';
+
+// Optionally pass HEAD requests to GET handlers
+// if ($method == 'HEAD') {
+//    $method = 'GET';
+// }
+
 $url = '/news/1';
 
 $result = $router->dispatch($method, $url);
@@ -41,6 +47,7 @@ $result = $router->dispatch($method, $url);
 if (!isset($result['error'])) {
     $handler = $result['handler'];
     $params = $result['params'];
+    // Do something with handler and params
 } else {
     switch ($result['error']['code']) {
         case 404 :
