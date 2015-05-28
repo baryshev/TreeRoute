@@ -33,6 +33,9 @@ $router->get('/news/{slug:^[a-zA-Z\-]+$}', 'handler3');
 // Defining static route that conflicts with previous route, but static routes have high priority
 $router->get('/news/all', 'handler4');
 
+// Defining another route
+$router->post('/news', 'handler5');
+
 $method = 'GET';
 
 // Optionally pass HEAD requests to GET handlers
