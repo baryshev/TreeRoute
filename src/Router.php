@@ -7,7 +7,6 @@ class Router
     const PARAM_REGEXP = '/^{((([^:]+):(.+))|(.+))}$/';
     const SEPARATOR_REGEXP = '/^[\s\/]+|[\s\/]+$/';
 
-    private $methods = ['get' => true, 'post' => true, 'put' => true, 'head' => true, 'patch' => true, 'delete' => true, 'connect' => true, 'options' => true, 'trace' => true, 'copy' => true, 'lock' => true, 'mkcol' => true, 'move' => true, 'propfind' => true, 'proppatch' => true, 'unlock' => true, 'report' => true, 'mkactivity' => true, 'checkout' => true, 'merge' => true];
     private $routes = ['childs' => [], 'regexps' => []];
 
     private function match($url)
@@ -153,11 +152,43 @@ class Router
         $this->routes = $routes;
     }
 
-    public function __call($method, $arguments)
+    public function options($route, $handler)
     {
-        if (isset($this->methods[$method])) {
-            array_unshift($arguments, [strtoupper($method)]);
-            return call_user_func_array([$this, 'addRoute'], $arguments);
-        }
+        $this->addRoute('OPTIONS', $route, $handler);
+    }
+
+    public function get($route, $handler)
+    {
+        $this->addRoute('GET', $route, $handler);
+    }
+
+    public function head($route, $handler)
+    {
+        $this->addRoute('HEAD', $route, $handler);
+    }
+
+    public function post($route, $handler)
+    {
+        $this->addRoute('POST', $route, $handler);
+    }
+
+    public function put($route, $handler)
+    {
+        $this->addRoute('PUT', $route, $handler);
+    }
+
+    public function delete($route, $handler)
+    {
+        $this->addRoute('DELETE', $route, $handler);
+    }
+
+    public function trace($route, $handler)
+    {
+        $this->addRoute('TRACE', $route, $handler);
+    }
+
+    public function connect($route, $handler)
+    {
+        $this->addRoute('CONNECT', $route, $handler);
     }
 }
