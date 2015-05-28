@@ -33,10 +33,10 @@ $router->get('/news/{slug:^[a-zA-Z\-]+$}', 'handler3');
 // Defining static route that conflicts with previous route, but static routes have high priority
 $router->get('/news/all', 'handler4');
 
-$url = '/news/1';
 $method = 'GET';
+$url = '/news/1';
 
-$result = $router->dispatch('GET', $url);
+$result = $router->dispatch($method, $url);
 
 if (!isset($result['error'])) {
     $handler = $result['handler'];
