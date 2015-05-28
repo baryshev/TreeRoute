@@ -11,6 +11,8 @@ Install the latest version with `composer require baryshev/tree-route`
 Usage
 -----
 
+Basic usage:
+
 ```php
 <?php
 
@@ -65,4 +67,26 @@ if (!isset($result['error'])) {
             break;
     }
 }
+```
+
+Save and restore routes (useful for routes caching):
+
+```php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+$router = new \TreeRoute\Router();
+$router->addRoute(['GET', 'POST'], '/', 'handler0');
+$router->addRoute('GET', '/news', 'handler1');
+
+$routes = $router->getRoutes();
+
+$anotherRouter = new \TreeRoute\Router();
+$anotherRouter->setRoutes($routes);
+
+$method = 'GET';
+$url = '/news';
+
+$result = $anotherRouter->dispatch($method, $url);
 ```
