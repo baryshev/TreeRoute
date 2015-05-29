@@ -3,7 +3,7 @@ TreeRoute - request router
 
 TreeRoute is a performance focused request router with regular expressions support.
 
-Instalation
+Installation
 -----------
 
 Install the latest version with `composer require baryshev/tree-route`
