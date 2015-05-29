@@ -90,3 +90,8 @@ $url = '/news';
 
 $result = $anotherRouter->dispatch($method, $url);
 ```
+
+Benchmark
+---------
+
+https://github.com/baryshev/FastRoute-vs-TreeRoute
