@@ -33,4 +33,9 @@ class Result
      * @var callable
      */
     public $handler;
+
+    /**
+     * @var Error|null error information (or NULL, if this Result is a success)
+     */
+    public $error;
 }

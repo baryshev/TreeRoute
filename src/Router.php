@@ -140,36 +140,31 @@ class Router
      * @param string $method HTTP method name
      * @param string $url
      *
-     * @return Result|Error
+     * @return Result
      */
     public function dispatch($method, $url)
     {
         $match = $this->match($url);
 
+        $result = new Result();
+        $result->url = $url;
+        $result->method = $method;
+
         if (!$match) {
-            $result = new Error(404, 'Not Found');
-            $result->url = $url;
-            $result->method = $method;
-            return $result;
+            $result->error = new Error(404, 'Not Found');
         } else {
+            $result->route = $match->route;
+            $result->params = $match->params;
+
             if (isset($match->methods[$method])) {
-                $result = new Result();
-                $result->url = $url;
-                $result->method = $method;
-                $result->route = $match->route;
-                $result->params = $match->params;
                 $result->handler = $match->methods[$method];
-                return $result;
             } else {
-                $result = new Error(405, 'Method Not Allowed');
-                $result->url = $url;
-                $result->method = $method;
-                $result->route = $match->route;
-                $result->params = $match->params;
-                $result->allowed = array_keys($match->methods);
-                return $result;
+                $result->error = new Error(405, 'Method Not Allowed');
+                $result->error->allowed = array_keys($match->methods);
             }
         }
+
+        return $result;
     }
 
     /**

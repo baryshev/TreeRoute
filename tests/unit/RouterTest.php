@@ -18,22 +18,20 @@ class RouterTest extends \Codeception\TestCase\Test
     }
 
     /**
-     * @param $result
-     * @param int $code
+     * @param \TreeRoute\Result $result
+     * @param int               $code
      */
-    private function assertIsError($result, $code)
+    private function assertIsError(\TreeRoute\Result $result, $code)
     {
-        $this->assertInstanceOf('TreeRoute\Error', $result);
-
-        if ($result instanceof TreeRoute\Error) {
-            $this->assertEquals($code, $result->code);
-        }
+        $this->assertEquals($code, $result->error->code);
     }
 
-    private function assertIsNotError($result)
+    /**
+     * @param \TreeRoute\Result $result
+     */
+    private function assertIsNotError(\TreeRoute\Result $result)
     {
-        $this->assertInstanceOf('TreeRoute\Result', $result);
-        $this->assertNotInstanceOf('TreeRoute\Error', $result);
+        $this->assertEmpty($result->error);
     }
 
     public function testRouter()
@@ -56,7 +54,7 @@ class RouterTest extends \Codeception\TestCase\Test
         $this->specify('should return 405 error for unsupported method', function () use ($router) {
             $result = $router->dispatch('POST', '/');
             $this->assertIsError($result, 405);
-            $this->assertEquals(['GET'], $result->allowed);
+            $this->assertEquals(['GET'], $result->error->allowed);
         });
 
         $this->specify('should define route with short methods', function () use ($router) {

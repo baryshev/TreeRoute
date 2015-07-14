@@ -5,9 +5,9 @@ namespace TreeRoute;
 /**
  * This model represents an error generated while attempting to dispatch a Router.
  *
- * @see Router::dispatch()
+ * @see Result::$error
  */
-class Error extends Result
+class Error
 {
     /**
      * @param int $code
