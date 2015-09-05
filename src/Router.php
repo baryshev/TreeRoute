@@ -30,31 +30,30 @@ class Router
                         continue 2;
                     }
                 }
-                if (isset($current['others'])) {
-                    $current = $current['others'];
-                    $params[$current['name']] = $parts[$i];
-                } else {
+                
+                if (!isset($current['others'])) {
                     return null;
-                }
+                } 
+                
+                $current = $current['others'];
+                $params[$current['name']] = $parts[$i];
             }
         }
 
         if (!isset($current['methods'])) {
             return null;
-        } else {
-            return [
-                'methods' => $current['methods'],
-                'route' => $current['route'],
-                'params' => $params
-            ];
         }
+         
+        return [
+            'methods' => $current['methods'],
+            'route' => $current['route'],
+            'params' => $params
+        ];
     }
 
     public function addRoute($methods, $route, $handler)
     {
-        if (is_string($methods)) {
-            $methods = [$methods];
-        }
+        $methods = (array) $methods;
 
         $parts = explode('?', $route, 1);
         $parts = explode('/', preg_replace(self::SEPARATOR_REGEXP, '', $parts[0]));
@@ -99,9 +98,8 @@ class Router
         $route = $this->match($url);
         if (!$route) {
             return null;
-        } else {
-            return array_keys($route['methods']);
-        }
+        } 
+        return array_keys($route['methods']);
     }
 
     public function dispatch($method, $url)
@@ -117,29 +115,29 @@ class Router
                 'method' => $method,
                 'url' => $url
             ];
-        } else {
-            if (isset($route['methods'][$method])) {
-                return [
-                    'method' => $method,
-                    'url' => $url,
-                    'route' => $route['route'],
-                    'params' => $route['params'],
-                    'handler' => $route['methods'][$method]
-                ];
-            } else {
-                return [
-                    'error' => [
-                        'code' => 405,
-                        'message' => 'Method Not Allowed'
-                    ],
-                    'method' => $method,
-                    'url' => $url,
-                    'route' => $route['route'],
-                    'params' => $route['params'],
-                    'allowed' => array_keys($route['methods'])
-                ];
-            }
+        } 
+        
+        if (isset($route['methods'][$method])) {
+            return [
+                'method' => $method,
+                'url' => $url,
+                'route' => $route['route'],
+                'params' => $route['params'],
+                'handler' => $route['methods'][$method]
+            ];
         }
+         
+        return [
+            'error' => [
+                'code' => 405,
+                'message' => 'Method Not Allowed'
+            ],
+            'method' => $method,
+            'url' => $url,
+            'route' => $route['route'],
+            'params' => $route['params'],
+            'allowed' => array_keys($route['methods'])
+        ];
     }
 
     public function getRoutes()
