@@ -91,6 +91,14 @@ $url = '/news';
 $result = $anotherRouter->dispatch($method, $url);
 ```
 
+Testing
+---------
+
+```bash
+composer install
+./vendor/bin/codecept run
+```
+
 Benchmark
 ---------
 
