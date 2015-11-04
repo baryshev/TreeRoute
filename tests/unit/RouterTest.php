@@ -55,8 +55,8 @@ class RouterTest extends \Codeception\TestCase\Test
         });
 
         $this->specify('should match regexp in params', function () use ($router) {
-            $router->get('/users/{name:^[a-zA-Z]+$}', 'handler3');
-            $router->get('/users/{id:^[0-9]+$}', 'handler4');
+            $router->get('/users/{name:[a-zA-Z]+}', 'handler3');
+            $router->get('/users/{id:[0-9]+}', 'handler4');
 
             $result = $router->dispatch('GET', '/users/@test');
             $this->assertEquals(404, $result['error']['code']);

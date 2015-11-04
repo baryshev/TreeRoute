@@ -27,10 +27,10 @@ $router->addRoute(['GET', 'POST'], '/', 'handler0');
 $router->addRoute('GET', '/news', 'handler1');
 
 // Defining route with regular expression param
-$router->get('/news/{id:^[0-9]+$}', 'handler2');
+$router->get('/news/{id:[0-9]+}', 'handler2');
 
 // Defining another route with regular expression param
-$router->get('/news/{slug:^[a-zA-Z\-]+$}', 'handler3');
+$router->get('/news/{slug:[a-zA-Z\-]+}', 'handler3');
 
 // Defining static route that conflicts with previous route, but static routes have high priority
 $router->get('/news/all', 'handler4');

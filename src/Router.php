@@ -24,7 +24,7 @@ class Router
                 $current = $current['childs'][$parts[$i]];
             } else {
                 foreach ($current['regexps'] as $regexp => $route) {
-                    if (preg_match('/' . addcslashes($regexp, '/') . '/', $parts[$i])) {
+                    if (preg_match('/^' . addcslashes($regexp, '/') . '$/', $parts[$i])) {
                         $current = $route;
                         $params[$current['name']] = $parts[$i];
                         continue 2;
