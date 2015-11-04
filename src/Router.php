@@ -11,7 +11,7 @@ class Router
 
     private function match($url)
     {
-        $parts = explode('?', $url, 1);
+        $parts = explode('?', $url, 2);
         $parts = explode('/', preg_replace(self::SEPARATOR_REGEXP, '', $parts[0]));
         if (sizeof($parts) === 1 && $parts[0] === '') {
             $parts = [];
@@ -55,8 +55,7 @@ class Router
     {
         $methods = (array) $methods;
 
-        $parts = explode('?', $route, 1);
-        $parts = explode('/', preg_replace(self::SEPARATOR_REGEXP, '', $parts[0]));
+        $parts = explode('/', preg_replace(self::SEPARATOR_REGEXP, '', $route));
         if (sizeof($parts) === 1 && $parts[0] === '') {
             $parts = [];
         }

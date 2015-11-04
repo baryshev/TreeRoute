@@ -86,5 +86,14 @@ class RouterTest extends \Codeception\TestCase\Test
             $result = $router->dispatch('GET', '/');
             $this->assertEquals('handler0', $result['handler']);
         });
+
+        $this->specify('should ignore query string if it exists', function () use ($router) {
+            $router->get('/news/{id}', 'handler2');
+            $result = $router->dispatch('GET', '/news/1?page=2');
+
+            $this->assertEquals('handler2', $result['handler']);
+            $this->assertEquals('1', $result['params']['id']);
+        });
+
     }
 }
