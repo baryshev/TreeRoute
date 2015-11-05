@@ -95,5 +95,12 @@ class RouterTest extends \Codeception\TestCase\Test
             $this->assertEquals('1', $result['params']['id']);
         });
 
+        $this->specify('should know allowed methods', function () use ($router) {
+            $result = $router->getOptions('/news/1?page=2');
+            $this->assertEquals(['GET'], $result);
+            $result = $router->getOptions('/notExistedRoute');
+            $this->assertEquals(null, $result);
+        });
+
     }
 }
